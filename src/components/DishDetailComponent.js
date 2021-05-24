@@ -1,6 +1,7 @@
-import React from 'react';
-import { Card, CardImg, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap';
+import React, { useState } from 'react';
+import { Card, CardImg, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbItem, Modal, ModalHeader, ModalBody, Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import Comment from './CommentComponent';
 
 
     function RenderDish({dish}) {
@@ -18,7 +19,27 @@ import { Link } from 'react-router-dom';
             );
     } 
 
+    function RenderCommentsForm(){
+
+        const [modal, setModal] = useState(false);
+        const toggle = () => setModal(!modal);
+        return (
+            <div>
+                 <Button color="light" className="fa fa-pencil"onClick={toggle}>
+                        Submit Comment
+                </Button>
+                <Modal isOpen={modal} toggle={toggle}>
+                    <ModalHeader toggle={toggle}>Submit Comment</ModalHeader>
+                    <ModalBody>
+                        <Comment />
+                    </ModalBody>
+                </Modal>
+            </div>
+        )
+    }
+
     function RenderComments({comments}) {
+ 
         if (comments != null) 
            return(
                <div className="col-12 col-md-5 m-1">
@@ -33,12 +54,13 @@ import { Link } from 'react-router-dom';
                            );
                        })}
                    </ul>
+                   <RenderCommentsForm/>
                </div>
            );
         else
             return(
-                <div></div>
-            );
+                <div><RenderCommentsForm/></div>
+            );           
     }
     
     const DishDetail = (props) => {      
