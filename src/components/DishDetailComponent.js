@@ -24,7 +24,7 @@ function RenderDish({dish}) {
     );
 } 
 
-function RenderComments ({comments, addComment, dishId}) {
+function RenderComments({comments, postComment, dishId}) {
  
     if (comments != null) 
        return(
@@ -40,12 +40,12 @@ function RenderComments ({comments, addComment, dishId}) {
                        );
                    })}
                </ul>
-               <CommentForm dishId={dishId} addComment={addComment} />
+               <CommentForm dishId={dishId} postComment={postComment} />
            </div>
        );
     else
         return(
-            <div><CommentForm dishId={dishId} addComment={addComment} /></div>
+            <div><CommentForm dishId={dishId} postComment={postComment} /></div>
         );           
 }
 
@@ -71,7 +71,7 @@ class CommentForm extends Component {
 
     handleSubmit(values) {
         this.toggleModal();
-        this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
+        this.props.postComment(this.props.dishId, values.rating, values.author, values.comment);
         
     }
 
@@ -90,18 +90,17 @@ class CommentForm extends Component {
                          <Row className="form-group">
                              <Label htmlFor="rating" md={12}>Rating</Label>
                              <Col md={12}>
-                             <Control.select
-                                name="rating"
-                                model=".rating"
-                                id="rating"
-                                className="form-control"
-                            >
-                                <option value={1}>1</option>
-                                <option value={2}>2</option>
-                                <option value={3}>3</option>
-                                <option value={4}>4</option>
-                                <option value={5}>5</option>
-                             </Control.select>
+                                <Control.select
+                                    model=".rating"
+                                    id="rating"
+                                    name="rating"
+                                    className="form-control">
+                                    <option value={1}>1</option>
+                                    <option value={2}>2</option>
+                                    <option value={3}>3</option>
+                                    <option value={4}>4</option>
+                                    <option value={5}>5</option>
+                                </Control.select>
                              </Col>
                          </Row>
                                                    
@@ -114,7 +113,7 @@ class CommentForm extends Component {
                                      validators={{
                                          required, minLength: minLength(3), maxLength: maxLength(15)
                                      }}
-                                      />
+                                 />
                                  <Errors
                                      className="text-danger"
                                      model=".author"
@@ -188,7 +187,7 @@ class CommentForm extends Component {
                     <div className="row">
                             <RenderDish dish={props.dish} />
                             <RenderComments comments={props.comments}
-                                addComment={props.addComment}
+                                postComment={props.postComment}
                                 dishId={props.dish.id}
                             />
                         </div>
